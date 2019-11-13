@@ -1,36 +1,50 @@
 <!DOCTYPE html>
 <html>
-    <script src="jquery-3.4.1.min.js">
-    </script>
+<head>
+    <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="jquery-3.4.1.min.js"></script>
+        <title>Moodle XML Helper</title>
+        <meta name="description" content="Moodle XML Helper">
+        <meta name="keywords" content="Moodle, XML, Helper">
+        <meta name="DC.description" content="Moodle XML Helper">
+        <!--<link rel="icon" type="image/png" href="images/logo.png">-->
+</head>
 <body>
-<h2>Moodle XML Helper</h2>
-<p>Q QUESTION TYPE (eg multichoice, shortanswer, truefalse, numerical)</p>
-<p>N QUESTION NAME</p>
-<p>T QUESTION TEXT</p>
-<p>A = ANSWER (correct answer)</p>
-<p>A ~ ANSWER (incorrect answer)</p>
-<p>A 50 ANSWER (percent correct answer)</p>
-<p>AT = ANSWER (use instaed of A if providing feedback)</p>
-<p>AF FEEDBACK (use after AT to provide feedback)</p>
-<p>SINGLE TRUE/FALSE (toggles single multiple answers)</p>
-<p>SHUFFLE TRUE/FALSE (toggles shuffle answers)</p>
-<p>SELECT QUESTION NUMBERS/LETTERS (eg abc, ABCD, 123, iii, IIII, none)</p>
-<p>END</p>
-
-
-
-<p id="demo"></p>
-<textarea rows="30" style="width:100%;max-width: 600px;">
-</textarea>
-<br><button onclick="convertxml()">Convert to XML</button> 
+    <div id="head">
+        <h1>Moodle XML Helper</h1>
+    </div>
+    <div id="main">
+        <h2>General Oprions</h2>
+        <p>Q QUESTION TYPE (eg multichoice, shortanswer, truefalse, numerical)</p>
+        <p>N QUESTION NAME</p>
+        <p>T QUESTION TEXT</p>
+        <p>A = ANSWER (correct answer)</p>
+        <p>A ~ ANSWER (incorrect answer)</p>
+        <p>A 50 ANSWER (percent correct answer)</p>
+        <p>FB FEEDBACK (use after A to provide feedback)</p>
+        <h2>Multiple Choice Options</h2>
+        <p>SINGLE TRUE/FALSE (toggles single multiple answers)</p>
+        <p>SHUFFLE TRUE/FALSE (toggles shuffle answers)</p>
+        <p>SELECT QUESTION NUMBERS/LETTERS (eg abc, ABCD, 123, iii, IIII, none)</p>
+        <h2>True False Shortcuts</h2>
+        <p>TRUE (sets true as correct)</p>
+        <p>TRUE (sets true as incorrect)</p>
+        <p>END</p>
+        
+        <textarea rows="30" style="width:100%;">
+        </textarea>
+        <br><button onclick="convertxml()">Convert to XML</button> 
+    </div>
 <script>
-//document.getElementById("demo").innerHTML = "Test JS";
 function convertxml(){
     var questiondata = '<?xml version="1.0" encoding="UTF-8"?><quiz>';
     var singleanswer = 0;
     var shuffleanswers = "n/a";
     var answernumbering = 0;
     var waitforfeedback = 0;
+    var tf = 0;
     var lines = $('textarea').val().split('\n');
     for(var i = 0;i < lines.length;i++){
         //console.log(lines[i])
@@ -62,6 +76,7 @@ function convertxml(){
                     case "TF":
                     case "TRUEFALSE":
                         questiondata += '<question type="truefalse">';
+                        tf = 1;
                     break;
                     case "SA":
                     case "SHORTANSWER":
@@ -200,7 +215,20 @@ function convertxml(){
                     break;
 
                 }
-
+                
+                if (tf == 1)
+                {
+                    switch (amessage.toUpperCase()){
+                        case "T":
+                        case "TRUE":
+                            amessage = "true"
+                        break;
+                        case "F":
+                        case "FALSE":
+                            amessage = "false"
+                        break;
+                    }
+                }
                 waitforfeedback = 1;
                 questiondata += '<answer fraction="'+fraction+'"><text>'+html1+amessage+html2+'</text>'; 
                 
@@ -209,6 +237,7 @@ function convertxml(){
                 waitforfeedback = 0;
                 questiondata += '<feedback format="html"><text><![CDATA[<p>'+message+'</p>]]></text></feedback></answer>';
             break;
+
             case "SINGLE":
                 if (message.toUpperCase() == "TRUE" || message.toUpperCase() == "1")
                 {
@@ -286,14 +315,13 @@ function convertxml(){
                     questiondata += '<answernumbering>'+answernumbering+'</answernumbering>'
                 }
 
-
-
                 questiondata += '</question>';
                 //resetvars
                 singleanswer = 0;
                 shuffleanswers = "n/a";
                 answernumbering = 0;
-                var waitforfeedback = 0;
+                waitforfeedback = 0;
+                tf = 0;
             break;
             case "SINGLE":
                 singleanswer = "true"   
@@ -305,6 +333,19 @@ function convertxml(){
             case "SHUFFLE":
                 shuffleanswers = "true"
             break;
+            case "TRUE":
+                if (tf == 1)
+                {
+                    questiondata += '<answer fraction="100"><text>true</text></answer><answer fraction="0"><text>false</text></answer>'
+                }
+            break;
+            case "FALSE":
+                if (tf == 1)
+                {
+                    questiondata += '<answer fraction="0"><text>true</text></answer><answer fraction="100"><text>false</text></answer>'
+                }
+            break;
+
         }
     }       
     questiondata += '</quiz>';
