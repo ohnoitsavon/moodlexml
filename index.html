@@ -16,25 +16,36 @@
         <h1>Moodle XML Helper</h1>
     </div>
     <div id="main">
-        <h2>General Oprions</h2>
-        <p>Q QUESTION TYPE (eg multichoice, shortanswer, truefalse, numerical)</p>
-        <p>N QUESTION NAME</p>
-        <p>T QUESTION TEXT</p>
-        <p>A = ANSWER (correct answer)</p>
-        <p>A ~ ANSWER (incorrect answer)</p>
-        <p>A 50 ANSWER (percent correct answer)</p>
-        <p>FB FEEDBACK (use after A to provide feedback)</p>
-        <h2>Multiple Choice Options</h2>
-        <p>SINGLE TRUE/FALSE (toggles single multiple answers)</p>
-        <p>SHUFFLE TRUE/FALSE (toggles shuffle answers)</p>
-        <p>SELECT QUESTION NUMBERS/LETTERS (eg abc, ABCD, 123, iii, IIII, none)</p>
-        <h2>True False Shortcuts</h2>
-        <p>TRUE (sets true as correct)</p>
-        <p>TRUE (sets true as incorrect)</p>
-        <p>END</p>
-        
-        <textarea rows="30" style="width:100%;">
-        </textarea>
+        <button class="collapsible">Guide</button>
+        <div class="content">
+            <p><strong>"Q QUESTION TYPE"</strong><span><br>Sets the type of question.<br><code>q multichoice|<wbr>shortanswer|<wbr>truefalse|<wbr>numerical</code></span></p>
+            <p><strong>"N QUESTION NAME"</strong><span><br>Sets the question name.<br><code>n Question 1</code></span></p>
+            <p><strong>"T QUESTION TEXT"</strong><span><br>Sets the question text.<br><code>t What colour is the sky?</code></span></p>
+            <p><strong>"A = ANSWER"</strong><span><br>Sets the correct answer.<br><code>a = Blue</code></span></p>
+            <p><strong>"A ~ ANSWER"</strong><span><br>Sets the incorrect answer.<br><code>a ~ Red</code></span></p>
+            <p><strong>"A 50 ANSWER"</strong><span><br>Sets an answer with a percentage grade, used with multi-answer questions.<br><code>a 50 White</code></span></p>
+            <p><strong>"FB FEEDBACK"</strong><span><br>Used after an answer to provide feedback.<br><code>fb Well Done</code></span></p>
+            <p><strong>"GFB FEEDBACK"</strong><span><br>Used to provide general feedback.<br><code>gfb This was an easy question</code></span></p>
+            <p><strong>"END"</strong><span><br>Always put this at the end of a question.<br><code>end</code></span></p>
+        </div>
+        <button class="collapsible">Question Specific Options</button>
+        <div class="content">
+            <span class="subhead">Multiple Choice</span>
+            <p>"SINGLE TRUE/FALSE"<span><br>Toggles between allowing single or multiple answers.<br><code>single true|<wbr>false</code></span></p>
+            <p>"SHUFFLE TRUE/FALSE"<span><br>Turns shuffle within question on or off.<br><code>shuffle true|<wbr>false</code></span></p>
+            <p>"SELECT NUMBERS/LETTERS"<span><br>Sets the answer numbers/letters.<br><code>select abc|<wbr>ABCD|<wbr>123|<wbr>iii|<wbr>IIII|<wbr>none</code></span></p>
+            <span class="subhead">True/False</span>
+            <p>"TRUE"<span><br>Sets true as the correct answer.<br><code>true</code></span></p>
+            <p>"FALSE"<span><br>Sets false as the correct answer.<br><code>false</code></span></p>
+        </div>
+        <button class="collapsible">Multiple Choice</button>
+        <div class="content">
+        <p><strong>Simple Example</strong><span><br><code>q multichoice<br>n Question 1<br>t What colour is the sky?<br>a = blue<br>a ~ red<br>a ~ green<br>a ~ yellow<br>end</code></span></p>
+        <p><strong>Full Example</strong><span><br><code>q multichoice<br>n Question 2<br>t Which of these are makes of car?<br>a 50 Ford<br>fb Correct!<br>a 0 Rond<br>fb Wrong!<br>a 50 Subaru<br>fb Correct!<br>a 0 Asda<br>fb Wrong!<br>single false<br>shuffle true<br>select 123<br>gfb This was an easy question<br>end</code></span></p>
+        </div>
+
+        <h2>Enter Questions</h2>
+        <textarea rows="30" style="width:100%;"></textarea>
         <br><button onclick="convertxml()">Convert to XML</button> 
     </div>
 <script>
@@ -238,6 +249,11 @@ function convertxml(){
                 questiondata += '<feedback format="html"><text><![CDATA[<p>'+message+'</p>]]></text></feedback></answer>';
             break;
 
+            case "GFB":
+                waitforfeedback = 0;
+                questiondata += '<generalfeedback format="html"><text><![CDATA[<p>'+message+'</p>]]></text></generalfeedback>';
+            break;
+
             case "SINGLE":
                 if (message.toUpperCase() == "TRUE" || message.toUpperCase() == "1")
                 {
@@ -365,6 +381,22 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+
 </script>
 </body>
 </html>

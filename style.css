@@ -35,7 +35,8 @@ body {
 	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 16px;
 	line-height: 1.5;
-	color: #606c71; 
+    color: #606c71; 
+    word-wrap: break-word;
 	
 }
 blockquote, q {
@@ -189,6 +190,64 @@ a:active {
 	margin: 3em 0 0 0;
 }
 
+.collapsible {
+    background-color: #222;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1.1em;
+  }
+  
+  .active, .collapsible:hover {
+    background-color: #333;
+  }
+  
+  .content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+  }
+
+  #main .content p{
+      padding: 10px 0;
+      margin: 0;
+      font-size: 0.9em;
+  }
+
+  #main .content p span{
+    font-size: 0.9em; 
+}
+
+.subhead
+{
+    display: inline-block;
+    padding: 10px 0 0 0;
+    margin: 0;
+    font-size: 0.9em;  
+    font-weight: bold;
+}
+
+  code {
+    font-family: monospace;
+    color:#222;
+    background:#fff;
+    padding: 8px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 5px;
+    max-width: 90%;
+  }
+
+strong
+{
+    font-weight: bold;
+}
 
 @media screen and (max-width: 992px) {
 
