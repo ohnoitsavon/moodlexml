@@ -16,32 +16,41 @@
         <h1>Moodle XML Helper</h1>
     </div>
     <div id="main">
-        <button class="collapsible">Guide</button>
-        <div class="content">
-            <p><strong>"Q QUESTION TYPE"</strong><span><br>Sets the type of question.<br><code>q multichoice|<wbr>shortanswer|<wbr>truefalse|<wbr>numerical</code></span></p>
-            <p><strong>"N QUESTION NAME"</strong><span><br>Sets the question name.<br><code>n Question 1</code></span></p>
-            <p><strong>"T QUESTION TEXT"</strong><span><br>Sets the question text.<br><code>t What colour is the sky?</code></span></p>
-            <p><strong>"A = ANSWER"</strong><span><br>Sets the correct answer.<br><code>a = Blue</code></span></p>
-            <p><strong>"A ~ ANSWER"</strong><span><br>Sets the incorrect answer.<br><code>a ~ Red</code></span></p>
-            <p><strong>"A 50 ANSWER"</strong><span><br>Sets an answer with a percentage grade, used with multi-answer questions.<br><code>a 50 White</code></span></p>
-            <p><strong>"FB FEEDBACK"</strong><span><br>Used after an answer to provide feedback.<br><code>fb Well Done</code></span></p>
-            <p><strong>"GFB GENERAL FEEDBACK"</strong><span><br>Used to provide general feedback.<br><code>gfb This was an easy question</code></span></p>
-            <p><strong>"END"</strong><span><br>Always put this at the end of a question.<br><code>end</code></span></p>
-        </div>
-        <button class="collapsible">Question Specific Options</button>
-        <div class="content">
-            <span class="subhead">Multiple Choice</span>
-            <p>"SINGLE TRUE/FALSE"<span><br>Toggles between allowing single or multiple answers.<br><code>single true|<wbr>false</code></span></p>
-            <p>"SHUFFLE TRUE/FALSE"<span><br>Turns shuffle within question on or off.<br><code>shuffle true|<wbr>false</code></span></p>
-            <p>"SELECT NUMBERS/LETTERS"<span><br>Sets the answer numbers/letters.<br><code>select abc|<wbr>ABCD|<wbr>123|<wbr>iii|<wbr>IIII|<wbr>none</code></span></p>
-            <span class="subhead">True/False</span>
-            <p>"TRUE"<span><br>Sets true as the correct answer.<br><code>true</code></span></p>
-            <p>"FALSE"<span><br>Sets false as the correct answer.<br><code>false</code></span></p>
-        </div>
-        <button class="collapsible">Multiple Choice</button>
-        <div class="content">
-        <p><strong>Simple Example</strong><span><br><code>q multichoice<br>n Question 1<br>t What colour is the sky?<br>a = blue<br>a ~ red<br>a ~ green<br>a ~ yellow<br>end</code></span></p>
-        <p><strong>Full Example</strong><span><br><code>q multichoice<br>n Question 2<br>t Which of these are makes of car?<br>a 50 Ford<br>fb Correct!<br>a 0 Rond<br>fb Wrong!<br>a 50 Subaru<br>fb Correct!<br>a 0 Asda<br>fb Wrong!<br>single false<br>shuffle true<br>select 123<br>gfb This was an easy question<br>end</code></span></p>
+        <button class="collapsible">Help</button>
+        <div id="colltop" class="content nopad">
+            <button class="collapsible">Guide</button>
+            <div class="content">
+                <p><strong>"Q QUESTION TYPE"</strong><span><br>Sets the type of question.<br><code>q multichoice|<wbr>shortanswer|<wbr>truefalse|<wbr>numerical</code></span></p>
+                <p><strong>"N QUESTION NAME"</strong><span><br>Sets the question name.<br><code>n Question 1</code></span></p>
+                <p><strong>"T QUESTION TEXT"</strong><span><br>Sets the question text.<br><code>t What colour is the sky?</code></span></p>
+                <p><strong>"A = ANSWER"</strong><span><br>Sets the correct answer.<br><code>a = Blue</code></span></p>
+                <p><strong>"A ~ ANSWER"</strong><span><br>Sets the incorrect answer.<br><code>a ~ Red</code></span></p>
+                <p><strong>"A 50 ANSWER"</strong><span><br>Sets an answer with a percentage grade, used with multi-answer questions.<br><code>a 50 White</code></span></p>
+                <p><strong>"FB FEEDBACK"</strong><span><br>Used after an answer to provide feedback.<br><code>fb Well Done</code></span></p>
+                <p><strong>"GFB GENERAL FEEDBACK"</strong><span><br>Used to provide general feedback.<br><code>gfb This was an easy question</code></span></p>
+                <p><strong>"END"</strong><span><br>Always put this at the end of a question.<br><code>end</code></span></p>
+            </div>
+            <button class="collapsible">Question Specific Options</button>
+            <div class="content">
+                <span class="subhead">Multiple Choice</span>
+                <p>"SINGLE TRUE/FALSE"<span><br>Toggles between allowing single or multiple answers.<br><code>single true|<wbr>false</code></span></p>
+                <p>"SHUFFLE TRUE/FALSE"<span><br>Turns shuffle within question on or off.<br><code>shuffle true|<wbr>false</code></span></p>
+                <p>"SELECT NUMBERS/LETTERS"<span><br>Sets the answer numbers/letters.<br><code>select abc|<wbr>ABCD|<wbr>123|<wbr>iii|<wbr>IIII|<wbr>none</code></span></p>
+                <span class="subhead">True/False</span>
+                <p>"TRUE"<span><br>Sets true as the correct answer.<br><code>true</code></span></p>
+                <p>"FALSE"<span><br>Sets false as the correct answer.<br><code>false</code></span></p>
+                <span class="subhead">Short Answer</span>
+                <p>"CASESENSITIVE TRUE/FALSE"<span><br>Makes the answer case sensitive.<br><code>casesensitive true|<wbr>false</code></span></p>
+            </div>
+            <button class="collapsible">Multiple Choice</button>
+            <div class="content">
+            <p><strong>Simple Example</strong><span><br><code>q multichoice<br>n Question 1<br>t What colour is the sky?<br>a = blue<br>a ~ red<br>a ~ green<br>a ~ yellow<br>end</code></span></p>
+            <p><strong>Full Example</strong><span><br><code>q multichoice<br>n Question 2<br>t Which of these are makes of car?<br>a 50 Ford<br>fb Correct!<br>a 0 Rond<br>fb Wrong!<br>a 50 Subaru<br>fb Correct!<br>a 0 Asda<br>fb Wrong!<br>single false<br>shuffle true<br>select 123<br>gfb This was an easy question<br>end</code></span></p>
+            </div>
+            <button class="collapsible">True/False</button>
+            <div class="content">
+            <p><strong>Simple Example</strong><span><br><code>q truefalse<br>n Question 1<br>t Is the sky blue?<br>true<br>end<br><br>q truefalse<br>n Question 2<br>t Computers are alive<br>false<br>end</code></span></p>
+            </div>
         </div>
 
         <h2>Enter Questions</h2>
@@ -58,18 +67,17 @@ function convertxml(){
     var tf = 0;
     var lines = $('textarea').val().split('\n');
     for(var i = 0;i < lines.length;i++){
-        //console.log(lines[i])
+        var templine = lines[i].trim();
         var html1 = ""
         var html2 = ""
-        var trigger = lines[i].substr(0,lines[i].indexOf(' '))
-        var message = lines[i].substr(lines[i].indexOf(' ')+1)
+        var trigger = templine.substr(0,templine.indexOf(' '))
+        var message = templine.substr(templine.indexOf(' ')+1)
 
         if(trigger.toUpperCase() != "FB" && waitforfeedback == 1) {
             waitforfeedback = 0;
             questiondata += '</answer>';
         }
 
-        //code here using lines[i] which will give you each line
         switch (trigger.toUpperCase())
         {
             case "Q":
@@ -311,9 +319,29 @@ function convertxml(){
                     break;
                 }
             break;
+            case "CASE":
+            case "CASESENSITIVE":
+                var casesensitive = 0;
+                if (message.toUpperCase() == "TRUE" || message.toUpperCase() == "1")
+                {
+                    casesensitive = "1"
+                }
+                else
+                {
+                    if (message != "")
+                    {
+                        casesensitive = "0"
+                    }
+                    else
+                    {
+                        casesensitive = "1" 
+                    }
+                }   
+                questiondata += '<usecase>'+casesensitive+'</usecase>';
+            break;
         }
 
-        switch (lines[i].toUpperCase())
+        switch (templine.toUpperCase())
         {
             case "END":
                 if (singleanswer != 0)
@@ -361,6 +389,10 @@ function convertxml(){
                     questiondata += '<answer fraction="0"><text>true</text></answer><answer fraction="100"><text>false</text></answer>'
                 }
             break;
+            case "CASE":
+            case "CASESENSITIVE":
+                questiondata += '<usecase>1</usecase>';
+            break;
 
         }
     }       
@@ -382,9 +414,9 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 
+var colltop = document.getElementById("colltop");
 var coll = document.getElementsByClassName("collapsible");
 var i;
-
 for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
     this.classList.toggle("active");
@@ -393,6 +425,8 @@ for (i = 0; i < coll.length; i++) {
       content.style.maxHeight = null;
     } else {
       content.style.maxHeight = content.scrollHeight + "px";
+      var calcheight = content.scrollHeight + colltop.scrollHeight;
+      colltop.style.maxHeight = calcheight + "px";
     } 
   });
 }
