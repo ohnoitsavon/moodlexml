@@ -20,7 +20,7 @@
         <div id="colltop" class="content nopad">
             <button class="collapsible">Guide</button>
             <div class="content">
-                <p><strong>"Q QUESTION TYPE"</strong><span><br>Sets the type of question.<br><code>q multichoice|<wbr>shortanswer|<wbr>truefalse|<wbr>numerical</code></span></p>
+                <p><strong>"Q QUESTION TYPE"</strong><span><br>Sets the type of question.<br><code>q multichoice|<wbr>shortanswer|<wbr>truefalse|<wbr>numerical|<wbr>essay</code></span></p>
                 <p><strong>"N QUESTION NAME"</strong><span><br>Sets the question name.<br><code>n Question 1</code></span></p>
                 <p><strong>"T QUESTION TEXT"</strong><span><br>Sets the question text.<br><code>t What colour is the sky?</code></span></p>
                 <p><strong>"A = ANSWER"</strong><span><br>Sets the correct answer.<br><code>a = Blue</code></span></p>
@@ -33,23 +33,41 @@
             <button class="collapsible">Question Specific Options</button>
             <div class="content">
                 <span class="subhead">Multiple Choice</span>
-                <p>"SINGLE TRUE/FALSE"<span><br>Toggles between allowing single or multiple answers.<br><code>single true|<wbr>false</code></span></p>
-                <p>"SHUFFLE TRUE/FALSE"<span><br>Turns shuffle within question on or off.<br><code>shuffle true|<wbr>false</code></span></p>
-                <p>"SELECT NUMBERS/LETTERS"<span><br>Sets the answer numbers/letters.<br><code>select abc|<wbr>ABCD|<wbr>123|<wbr>iii|<wbr>IIII|<wbr>none</code></span></p>
+                <p>"SINGLE"<span><br>Toggles between allowing single or multiple answers.<br><code>single true|<wbr>false</code></span></p>
+                <p>"SHUFFLE"<span><br>Turns shuffle within question on or off.<br><code>shuffle true|<wbr>false</code></span></p>
+                <p>"SELECT"<span><br>Sets the answer numbers/letters.<br><code>select abc|<wbr>ABCD|<wbr>123|<wbr>iii|<wbr>IIII|<wbr>none</code></span></p>
                 <span class="subhead">True/False</span>
                 <p>"TRUE"<span><br>Sets true as the correct answer.<br><code>true</code></span></p>
                 <p>"FALSE"<span><br>Sets false as the correct answer.<br><code>false</code></span></p>
                 <span class="subhead">Short Answer</span>
-                <p>"CASESENSITIVE TRUE/FALSE"<span><br>Makes the answer case sensitive.<br><code>casesensitive true|<wbr>false</code></span></p>
+                <p>"CASESENSITIVE"<span><br>Makes the answer case sensitive.<br><code>casesensitive true|<wbr>false</code></span></p>
+                <span class="subhead">Numerical</span>
+                <p>"TOLERANCE"<br><span class="warning">NOTE: This option must go directly after the answer and before any feedback (if used).</span><br><span>Sets the tolerance both +/- the answer. E.g. with an answer of 10 and a tolerance of 5, any answer between 5 and 15 would be marked correct.<br><code>tolerance 10</code></span></p>  
             </div>
             <button class="collapsible">Multiple Choice</button>
             <div class="content">
-            <p><strong>Simple Example</strong><span><br><code>q multichoice<br>n Question 1<br>t What colour is the sky?<br>a = blue<br>a ~ red<br>a ~ green<br>a ~ yellow<br>end</code></span></p>
-            <p><strong>Full Example</strong><span><br><code>q multichoice<br>n Question 2<br>t Which of these are makes of car?<br>a 50 Ford<br>fb Correct!<br>a 0 Rond<br>fb Wrong!<br>a 50 Subaru<br>fb Correct!<br>a 0 Asda<br>fb Wrong!<br>single false<br>shuffle true<br>select 123<br>gfb This was an easy question<br>end</code></span></p>
+                <p><strong>Simple Example</strong><span><br><code>q multichoice<br>n Question 1<br>t What colour is the sky?<br>a = blue<br>a ~ red<br>a ~ green<br>a ~ yellow<br>end</code></span></p>
+                <p><strong>Full Example</strong><span><br><code>q multichoice<br>n Question 2<br>t Which of these are makes of car?<br>a 50 Ford<br>fb Correct!<br>a 0 Rond<br>fb Wrong!<br>a 50 Subaru<br>fb Correct!<br>a 0 Asda<br>fb Wrong!<br>single false<br>shuffle true<br>select 123<br>gfb This was an easy question<br>end</code></span></p>
             </div>
             <button class="collapsible">True/False</button>
             <div class="content">
-            <p><strong>Simple Example</strong><span><br><code>q truefalse<br>n Question 1<br>t Is the sky blue?<br>true<br>end<br><br>q truefalse<br>n Question 2<br>t Computers are alive<br>false<br>end</code></span></p>
+                <p><strong>Simple Example</strong><span><br><code>q truefalse<br>n Question 1<br>t Is the sky blue?<br>true<br>end<br><br>q truefalse<br>n Question 2<br>t Computers are alive<br>false<br>end</code></span></p>
+                <p><strong>Full Example</strong><span><br><code>q truefalse<br>n Question 3<br>t Is the sky blue?<br>a = true<br>fb Well Done<br>a ~ false<br>fb Wrong!<br>gfb This was an easy question<br>end</code></span></p>
+            </div>
+            <button class="collapsible">Short Answer</button>
+            <div class="content">
+                <p><strong>Simple Example</strong><span><br><code>q shortanswer<br>n Question 1<br>t What is the capital of England<br>a = London<br>end</code></span></p>
+                <p><strong>Full Example</strong><span><br><code>q shortanswer<br>n Question 2<br>t What is the name of the VLE this tool is for?<br>a = Moodle<br>fb Correct!<br>a = moodle<br>fb Also Correct<br>gfb This was an easy question<br>casesensitive true<br>end</code></span></p>
+            </div>
+            <button class="collapsible">Numerical</button>
+            <div class="content">
+                <p><strong>Simple Example</strong><span><br><code>q numerical<br>n Question 1<br>t What is 1 + 1<br>a = 2<br>end</code></span></p>
+                <p><strong>Full Example</strong><span><br><code>q numerical<br>n Question 2<br>t Pick a number between 10 and 20<br>a = 15<br>tolerance 5<br>fb Correct!<br>gfb This was an easy question<br>end</code></span></p>
+            </div>
+            <button class="collapsible">Essay</button>
+            <div class="content">
+                <p><strong>Simple Example</strong><span><br><code>q essay<br>n Question 1<br>t Discuss the benefits of computers in education.<br>end</code></span></p>
+                <p><strong>Full Example</strong><span><br><code>q essay<br>n Question 2<br>t Discuss the drawbacks of computers in education.<br>gfb This was an easy question<br>end</code></span></p>
             </div>
         </div>
 
@@ -65,6 +83,7 @@ function convertxml(){
     var answernumbering = 0;
     var waitforfeedback = 0;
     var tf = 0;
+    var essay = 0;
     var lines = $('textarea').val().split('\n');
     for(var i = 0;i < lines.length;i++){
         var templine = lines[i].trim();
@@ -73,9 +92,18 @@ function convertxml(){
         var trigger = templine.substr(0,templine.indexOf(' '))
         var message = templine.substr(templine.indexOf(' ')+1)
 
-        if(trigger.toUpperCase() != "FB" && waitforfeedback == 1) {
-            waitforfeedback = 0;
-            questiondata += '</answer>';
+        switch (trigger.toUpperCase())
+        {
+            case "TOL":
+            case "TOLERANCE":
+            case "FB":
+            break;
+            default:
+            if(waitforfeedback == 1) {
+                waitforfeedback = 0;
+                questiondata += '</answer>';
+            }
+            break;
         }
 
         switch (trigger.toUpperCase())
@@ -107,17 +135,22 @@ function convertxml(){
                     case "NUMERICAL":
                         questiondata += '<question type="numerical">';
                     break;
-                    //matching
-                    //essay
-                    //cloze
-                            //usecase for short answer
+                    case "E":
+                    case "ESSAY":
+                        questiondata += '<question type="essay">';
+                        essay = 1;
+                    break;
                 }
             break;
             case "N":
                 questiondata += '<name><text>'+message+'</text></name>'
             break;
             case "T":
-                questiondata += '<questiontext format="html"><text><![CDATA[<p>'+message+'</p>]]></text></questiontext>'    
+                questiondata += '<questiontext format="html"><text><![CDATA[<p>'+message+'</p>]]></text></questiontext>'
+                if (essay)
+                {
+                    questiondata += '<answer fraction="0"><text></text></answer>'
+                } 
             break;
             case "A":
                 var atrigger = message.substr(0,message.indexOf(' '))
@@ -252,6 +285,10 @@ function convertxml(){
                 questiondata += '<answer fraction="'+fraction+'"><text>'+html1+amessage+html2+'</text>'; 
                 
             break;
+            case "TOL":
+            case "TOLERANCE":
+                questiondata += '<tolerance>'+message+'</tolerance>';
+            break;
             case "FB":
                 waitforfeedback = 0;
                 questiondata += '<feedback format="html"><text><![CDATA[<p>'+message+'</p>]]></text></feedback></answer>';
@@ -366,6 +403,7 @@ function convertxml(){
                 answernumbering = 0;
                 waitforfeedback = 0;
                 tf = 0;
+                essay = 0;
             break;
             case "SINGLE":
                 singleanswer = "true"   

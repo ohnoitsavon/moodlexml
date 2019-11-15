@@ -253,6 +253,12 @@ strong
     font-weight: bold;
 }
 
+.warning
+{
+  font-weight: bold;
+  color: red;
+}
+
 @media screen and (max-width: 992px) {
 
 #main
