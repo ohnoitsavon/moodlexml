@@ -84,6 +84,7 @@ function convertxml(){
     var waitforfeedback = 0;
     var tf = 0;
     var essay = 0;
+    var matching = 0;
     var lines = $('textarea').val().split('\n');
     for(var i = 0;i < lines.length;i++){
         var templine = lines[i].trim();
@@ -102,6 +103,9 @@ function convertxml(){
             if(waitforfeedback == 1) {
                 waitforfeedback = 0;
                 questiondata += '</answer>';
+                if (matching == 1){
+                    questiondata += "</subquestion>";
+                }
             }
             break;
         }
@@ -140,17 +144,25 @@ function convertxml(){
                         questiondata += '<question type="essay">';
                         essay = 1;
                     break;
+                    case "M":
+                    case "MATCHING":
+                        questiondata += '<question type="matching">';
+                        matching = 1;
+                    break;
                 }
             break;
             case "N":
                 questiondata += '<name><text>'+message+'</text></name>'
             break;
             case "T":
+                if (matching == 1){
+                    questiondata += "<subquestion>";
+                }
                 questiondata += '<questiontext format="html"><text><![CDATA[<p>'+message+'</p>]]></text></questiontext>'
                 if (essay)
                 {
                     questiondata += '<answer fraction="0"><text></text></answer>'
-                } 
+                }
             break;
             case "A":
                 var atrigger = message.substr(0,message.indexOf(' '))
@@ -292,6 +304,9 @@ function convertxml(){
             case "FB":
                 waitforfeedback = 0;
                 questiondata += '<feedback format="html"><text><![CDATA[<p>'+message+'</p>]]></text></feedback></answer>';
+                if (matching == 1){
+                    questiondata += "</subquestion>";
+                }
             break;
 
             case "GFB":
@@ -404,6 +419,7 @@ function convertxml(){
                 waitforfeedback = 0;
                 tf = 0;
                 essay = 0;
+                matching = 0;
             break;
             case "SINGLE":
                 singleanswer = "true"   
