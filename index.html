@@ -20,7 +20,7 @@
         <div id="colltop" class="content nopad">
             <button class="collapsible">Guide</button>
             <div class="content">
-                <p><strong>"Q QUESTION TYPE"</strong><span><br>Sets the type of question.<br><code>q multichoice|<wbr>shortanswer|<wbr>truefalse|<wbr>numerical|<wbr>essay</code></span></p>
+                <p><strong>"Q QUESTION TYPE"</strong><span><br>Sets the type of question.<br><code>q multichoice|<wbr>shortanswer|<wbr>truefalse|<wbr>numerical|<wbr>essay|<wbr>matching|<wbr>select missing words|<wbr>cloze|<wbr>description</code></span></p>
                 <p><strong>"N QUESTION NAME"</strong><span><br>Sets the question name.<br><code>n Question 1</code></span></p>
                 <p><strong>"T QUESTION TEXT"</strong><span><br>Sets the question text.<br><code>t What colour is the sky?</code></span></p>
                 <p><strong>"A = ANSWER"</strong><span><br>Sets the correct answer.<br><code>a = Blue</code></span></p>
@@ -43,6 +43,12 @@
                 <p>"CASESENSITIVE"<span><br>Makes the answer case sensitive.<br><code>casesensitive true|<wbr>false</code></span></p>
                 <span class="subhead">Numerical</span>
                 <p>"TOLERANCE"<br><span class="warning">NOTE: This option must go directly after the answer and before any feedback (if used).</span><br><span>Sets the tolerance both +/- the answer. E.g. with an answer of 10 and a tolerance of 5, any answer between 5 and 15 would be marked correct.<br><code>tolerance 10</code></span></p>  
+                <span class="subhead">Matching</span>
+                <p>"SUB"<br><span>Used to set the sub question text. If you want to submit an extra answer with no question use type "SUB" with no text afterwards.<br><code>sub What colour is the sky?</code></span></p>
+                <p>"SHUFFLE"<span><br>Turns shuffle within question on or off.<br><code>shuffle true|<wbr>false</code></span></p>
+                <span class="subhead">Select Missing Words</span>
+                <p>"W"/"G"<br><span class="warning">NOTE: The order of the words will correspond to the correct answers for each gap. E.g. The first word is the correct answer for the first gap.</span><br><span>This adds a word to the question. You must type a word with the "W" command first, then select a group afterwards using the "G" command.<br><code>w Red<br>g 1</code></span></p>
+                <p>"SHUFFLE"<span><br>Turns shuffle within question on or off.<br><code>shuffle true|<wbr>false</code></span></p>
             </div>
             <button class="collapsible">Multiple Choice</button>
             <div class="content">
@@ -68,6 +74,25 @@
             <div class="content">
                 <p><strong>Simple Example</strong><span><br><code>q essay<br>n Question 1<br>t Discuss the benefits of computers in education.<br>end</code></span></p>
                 <p><strong>Full Example</strong><span><br><code>q essay<br>n Question 2<br>t Discuss the drawbacks of computers in education.<br>gfb This was an easy question<br>end</code></span></p>
+            </div>
+            <button class="collapsible">Matching</button>
+            <div class="content">
+                <p><strong>Simple Example</strong><span><br><code>q matching<br>n Question 1<br>t Answer the following questions:<br>sub What is the colour of grass<br>a = green<br>sub What colour is the sky?<br>a = blue<br>sub<br>a = red<br>end</code></span></p>
+                <p><strong>Full Example</strong><span><br><code>q matching<br>n Question 2<br>t Answer the following questions:<br>sub What is the colour of grass<br>a = green<br>sub What colour is the sky?<br>a = blue<br>sub<br>a = red<br>shuffle true<br>gfb This was an easy question<br>end</code></span></p>
+            </div>
+            <button class="collapsible">Select Missing Words</button>
+            <div class="content">
+                <p><strong>Simple Example</strong><span><br><code>q select missing words<br>n Question 1<br>t The [[1]] sat on the [[2]]<br>w cat<br>g 1<br>w mat<br>g 2<br>w dog<br>g 1<br>w rug<br>g 2<br>end</code></span></p>
+                <p><strong>Full Example</strong><span><br><code>q select missing words<br>n Question 2<br>t The [[1]] sat on the [[2]]<br>w cat<br>g 1<br>w mat<br>g 2<br>w dog<br>g 1<br>w rug<br>g 2<br>shuffle false<br>gfb This was an easy question<br>end</code></span></p>
+            </div>
+            <button class="collapsible">Cloze</button>
+            <div class="content">
+                <p><strong>Simple Example</strong><span><br><code>q cloze<br>n Question 1<br>t {1:SHORTANSWER:=Berlin} is the capital of Germany.<br>end<br></code></span></p>
+                <p><strong>Full Example</strong><span><br><code>q cloze<br>n Question 2<br>t {1:SHORTANSWER:=Berlin} is the capital of Germany.<br>gfb This was an easy question<br>end<br></code></span></p>
+            </div>
+            <button class="collapsible">Description</button>
+            <div class="content">
+                <p><strong>Example</strong><span><br><code>q description<br>n Description 1<br>t Welcome to the quiz! Please answer the following questions.<br>end</code></span></p>
             </div>
         </div>
 
@@ -103,9 +128,6 @@ function convertxml(){
             if(waitforfeedback == 1) {
                 waitforfeedback = 0;
                 questiondata += '</answer>';
-                if (matching == 1){
-                    questiondata += "</subquestion>";
-                }
             }
             break;
         }
@@ -147,22 +169,42 @@ function convertxml(){
                     case "M":
                     case "MATCHING":
                         questiondata += '<question type="matching">';
+                        shuffleanswers = "0";
                         matching = 1;
+                    break;
+                    case "D":
+                    case "DESCRIPTION":
+                        questiondata += '<question type="description">';
+                    break;
+                    case "C":
+                    case "CLOZE":
+                        questiondata += '<question type="cloze">';
+                    break;
+                    break;
+                    case "SMW":
+                    case "SELECT MISSING WORDS":
+                        questiondata += '<question type="gapselect">';
                     break;
                 }
             break;
             case "N":
                 questiondata += '<name><text>'+message+'</text></name>'
             break;
+            case "SUB":
+                questiondata += '<subquestion><text><![CDATA[<p>'+message+'</p>]]></text>';
+            break;
             case "T":
-                if (matching == 1){
-                    questiondata += "<subquestion>";
-                }
                 questiondata += '<questiontext format="html"><text><![CDATA[<p>'+message+'</p>]]></text></questiontext>'
                 if (essay)
                 {
                     questiondata += '<answer fraction="0"><text></text></answer>'
                 }
+            break;
+            case "W":
+                questiondata += '<selectoption><text><![CDATA[<p>'+message+'</p>]]></text>'
+            break;
+            case "G":
+                questiondata += '<group>'+message+'</group></selectoption>'
             break;
             case "A":
                 var atrigger = message.substr(0,message.indexOf(' '))
@@ -293,8 +335,15 @@ function convertxml(){
                         break;
                     }
                 }
-                waitforfeedback = 1;
-                questiondata += '<answer fraction="'+fraction+'"><text>'+html1+amessage+html2+'</text>'; 
+                if (matching != 1)
+                {
+                    waitforfeedback = 1;
+                    questiondata += '<answer fraction="'+fraction+'"><text>'+html1+amessage+html2+'</text>'; 
+                }
+                else
+                {
+                    questiondata += '<answer fraction="'+fraction+'"><text>'+html1+amessage+html2+'</text></answer></subquestion>'; 
+                }
                 
             break;
             case "TOL":
@@ -304,9 +353,6 @@ function convertxml(){
             case "FB":
                 waitforfeedback = 0;
                 questiondata += '<feedback format="html"><text><![CDATA[<p>'+message+'</p>]]></text></feedback></answer>';
-                if (matching == 1){
-                    questiondata += "</subquestion>";
-                }
             break;
 
             case "GFB":
@@ -446,6 +492,9 @@ function convertxml(){
             case "CASE":
             case "CASESENSITIVE":
                 questiondata += '<usecase>1</usecase>';
+            break;
+            case "SUB":
+                questiondata += '<subquestion><text></text>';
             break;
 
         }
