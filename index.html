@@ -49,6 +49,8 @@
                 <span class="subhead">Select Missing Words</span>
                 <p>"W"/"G"<br><span class="warning">NOTE: The order of the words will correspond to the correct answers for each gap. E.g. The first word is the correct answer for the first gap.</span><br><span>This adds a word to the question. You must type a word with the "W" command first, then select a group afterwards using the "G" command.<br><code>w Red<br>g 1</code></span></p>
                 <p>"SHUFFLE"<span><br>Turns shuffle within question on or off.<br><code>shuffle true|<wbr>false</code></span></p>
+                <span class="subhead">Cloze</span>
+                <p>"T{"/"T:"/"T}"<br><span>This lets you add multiple lines to a question. Start with "T{", use "T:" for each line, then end with "T}".<br><code>t{<br>t: This is line 1.<br>t: This is line 2.<br>t}</code></span></p>
             </div>
             <button class="collapsible">Multiple Choice</button>
             <div class="content">
@@ -88,7 +90,13 @@
             <button class="collapsible">Cloze</button>
             <div class="content">
                 <p><strong>Simple Example</strong><span><br><code>q cloze<br>n Question 1<br>t {1:SHORTANSWER:=Berlin} is the capital of Germany.<br>end<br></code></span></p>
-                <p><strong>Full Example</strong><span><br><code>q cloze<br>n Question 2<br>t {1:SHORTANSWER:=Berlin} is the capital of Germany.<br>gfb This was an easy question<br>end<br></code></span></p>
+                <p><strong>Full Example</strong><span><br><code>q cloze<br>n Question 2
+                    <br>t{
+                    <br>t: The capital of France is {1:SHORTANSWER:%100%Paris#Congratulations!~%50%Marseille#No, that is the second largest city in France (after Paris).~*#Wrong answer. The capital of France is Paris, of course.}.
+                    <br>t:
+                    <br>t: 23+ 0.8 = {2:NUMERICAL:=23.8:0.1#Feedback for correct answer 23.8 ~%50%23.8:2#Feedback for ½credit near correct answer}.
+                    <br>t}
+                    <br>gfb This was an easy question<br>end<br></code></span></p>
             </div>
             <button class="collapsible">Description</button>
             <div class="content">
@@ -199,6 +207,10 @@ function convertxml(){
                 {
                     questiondata += '<answer fraction="0"><text></text></answer>'
                 }
+            break;
+            case "T:":
+            case "T=":
+                questiondata += message+'<br>';
             break;
             case "W":
                 questiondata += '<selectoption><text><![CDATA[<p>'+message+'</p>]]></text>'
@@ -495,6 +507,24 @@ function convertxml(){
             break;
             case "SUB":
                 questiondata += '<subquestion><text></text>';
+            break;
+            case "T:":
+            case "T=":
+                questiondata += '<br>';
+            break;
+            case "T+":
+            case "T(":
+            case "T{":
+                questiondata += '<questiontext format="html"><text><![CDATA[<p>';
+            break;
+            case "T}":
+            case "T)":
+            case "T-":
+                questiondata += '</p>]]></text></questiontext>';
+                if (essay)
+                {
+                    questiondata += '<answer fraction="0"><text></text></answer>'
+                }
             break;
 
         }
