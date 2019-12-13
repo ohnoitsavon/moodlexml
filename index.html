@@ -118,11 +118,11 @@ function convertxml(){
     var tf = 0;
     var essay = 0;
     var matching = 0;
+    var html1 = ""
+    var html2 = ""
     var lines = $('textarea').val().split('\n');
     for(var i = 0;i < lines.length;i++){
         var templine = lines[i].trim();
-        var html1 = ""
-        var html2 = ""
         var trigger = templine.substr(0,templine.indexOf(' '))
         var message = templine.substr(templine.indexOf(' ')+1)
 
@@ -478,6 +478,8 @@ function convertxml(){
                 tf = 0;
                 essay = 0;
                 matching = 0;
+                html1 = ""
+                html2 = ""
             break;
             case "SINGLE":
                 singleanswer = "true"   
